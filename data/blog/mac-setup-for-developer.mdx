@@ -1,0 +1,397 @@
+---
+title: Mac setup for Developer
+date: '2024-09-28'
+tags: ['dev-env']
+draft: true
+summary: Some useful setup guides for developers with a new Mac.
+images: []
+---
+
+![Mac setup for Developer](/static/images/mac-developer-0.jpg)
+
+After using Macbook for a few years. Here are some essential settings for programming that I find helpful. It saves me time searching when I have to reinstall my Mac.
+
+- [System preferences](#system-preferences)
+- [Xcode and Command Line Tools](#xcode-and-command-line-tools)
+- [Homebrew](#homebrew)
+- [iTerm 2](#iterm-2)
+- [Oh my zsh](#oh-my-zsh)
+- [Git](#git)
+- [Versions management](#versions-management)
+- [Alias](#alias)
+
+## System preferences
+
+Override more system preferences from the terminal:
+
+```bash
+# take screenshots as jpg (usually smaller size) and not png
+defaults write com.apple.screencapture type jpg
+
+# change screenshot destination (desktop works fine also)
+defaults write com.apple.screencapture location "~/Screenshots"
+
+# do not open previous previewed files (e.g. PDFs) when opening a new one
+defaults write com.apple.Preview ApplePersistenceIgnoreState YES
+
+# show Library folder
+chflags nohidden ~/Library
+
+# show hidden files
+defaults write com.apple.finder AppleShowAllFiles YES
+
+# show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+killall Finder;
+```
+
+## Xcode and Command Line Tools
+
+You must install Xcode and Command Line Tools before proceeding with the rest of the guide.
+
+To install Xcode: Open App Store, install [Xcode](https://apps.apple.com/in/app/xcode/id497799835?mt=12). It's a large download and will take a while.
+
+After the Xcode installation finishes, go to install `Command Line Tools`. Open the terminal app and run:
+
+```bash
+xcode-select --install && sudo xcodebuild -license
+```
+
+## Homebrew
+
+[Homebrew](https://brew.sh/) is a package manager trusted by many people. To install, open Terminal or iTerm and run the command:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+After installing, you can run `brew doctor` to check your system for potential problems. And run `brew update` to update everything to recent version.
+
+To search for a package
+
+```bash
+brew search [keyword]
+```
+
+To install a formulae
+
+```bash
+brew install [package name]
+```
+
+To install a cask
+
+```bash
+brew install --cask [package name]
+```
+
+Other helpful commands
+
+```bash
+# Open Homebrew home page
+brew home
+
+# List all installed formulae/cask
+brew list
+brew list --cask
+
+# Uninstall a package
+brew uninstall [package name]
+brew uninstall -cask [package name]
+
+# Search package with description
+brew search [keyword] --desc
+
+# Update brew package
+brew update
+
+# Show outdated package
+brew outdated
+
+# Upgrade installed package
+brew upgrade [package name]
+
+# Upgrade all installed package
+brew upgrade
+
+# Remove unused package
+brew cleanup
+
+```
+
+Other helpful commands for service
+
+```bash
+# List all services
+brew services list
+
+# Start a service
+brew services start [service name]
+
+# Stop a service
+brew services stop [service name]
+
+# Restart a service
+brew services restart [service name]
+
+# Remove unused services
+brew services cleanup
+```
+
+## iTerm 2
+
+This is my preferred terminal setup. Feel free to use whatever you like.
+
+To install [iTerm 2](https://iterm2.com/). Open Terminal and run the command:
+
+```bash
+brew install --cask iterm2
+```
+
+### iTerm preferences
+
+* **Natural Text Editing**: Turn on Natural Text Editing by `Preferences -> Profiles -> Keys -> Select Presets -> Natural Text Editing`. This allows you to use the Options/Command keys to move your cursor freely.
+* **Font**: Change the font of the terminal by `Preferences -> Profiles -> Text`. I use [hack-nerd-font](https://github.com/ryanoasis/nerd-fonts) with 14pt font size. This font can be install from Homebrew with command `brew install --cask font-hack-nerd-font`.
+* **Default editor**: Change the default editor when open from Terminal by `Preferences -> Profile -> Advanced -> Semantic History -> Open with Editor -> VS Code`.
+
+### Oh my zsh
+
+[Oh My Zsh](https://ohmyz.sh/) using for managing your Zsh configuration. Run the following command to install:
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+Some commonly used Oh My Zsh plugins are:
+
+- [zsh-completions](https://github.com/zsh-users/zsh-completions)
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+
+### Zsh theme
+
+After that, you can install the Zsh theme to personalize your command line window. There are some popular themes as the following:
+- [Starship](https://github.com/starship/starship)
+- [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
+
+## Git
+
+Git is already installed as part of Xcode Command Line Tools. However, I prefer to install the latest version from brew and avoid using the outdated version installed by Apple.
+
+```bash
+brew install git
+```
+
+### Git global configurations
+
+After installing Git, apply the following global configurations:
+
+Set up the default branch for any new project to main (This was introduced in Git version 2.28):
+
+```bash
+git config --global init.defaultBranch main
+```
+
+Enable colors in command output:
+
+```bash
+git config --global color.uni auto
+```
+
+Improved git log:
+
+```bash
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+```
+
+Now use:
+
+```bash
+git lg
+```
+
+Set up real name and email:
+
+```bash
+git config --global user.name "Real name"
+git config --global user.email email@domain.com
+```
+
+To check or verify the global git config, run:
+
+```bash
+git config -l --global
+```
+
+## Versions management
+
+There are various package managers for different programming languages and technology stacks. Here are the environment managers I frequently use:
+
+### jEnv
+
+Before using [jEnv](https://github.com/jenv/jenv), we must install Java. Run the following command to install Java from `Homebrew`:
+
+```bash
+brew install openjdk
+```
+
+For the system Java wrappers to find this JDK, symlink it with:
+
+```bash
+sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+```
+
+To check Java environments installed:
+
+```bash
+/usr/libexec/java_home -V
+```
+
+After installing an OpenJDK version, add them to `jenv`:
+
+```bash
+jenv add <jdk path>
+```
+
+> You can show and copy jdk path by `/usr/libexec/java_home -V` command. Example as bellow
+> ![Mac setup for Developer - java versions](/static/images/mac-developer-1.png)
+
+Commonly `jenv` used commands:
+
+```bash
+# Lis versions added
+jenv versions
+
+# Set Java version for the current working directory
+jenv local [version]
+
+# Delete local java version
+jenv local --unset
+```
+
+`jenv` can set Java versions at 3 levels:
+- global (lowest priority)
+- local
+- shell (highest priority)
+
+To have JAVA_HOME get set by jEnv, enable the export plugin.
+
+```bash
+eval "$(jenv init -)"
+jenv enable-plugin export
+```
+
+### goenv
+
+Go version management. To install [Goenv](https://github.com/go-nv/goenv), run following command:
+
+```bash
+brew install goenv
+```
+
+To show all available Go versions:
+
+```bash
+goenv install -l
+```
+
+To install a go version:
+
+```bash
+goenv install <version>
+```
+
+`Zsh` configured for `goenv`:
+
+```bash
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+```
+
+Commonly `goenv` used commands:
+
+```bash
+# Set Go version for the current working directory
+goenv local [version]
+
+# Set Go version for global
+goenv global [version]
+
+# Lists all available goenv commands.
+goenv commands
+```
+
+### nvm
+
+Manage multiple Node.js versions. To install [nvm](https://github.com/nvm-sh/nvm), run the following command:
+
+```bash
+brew install nvm
+```
+
+Add bellow script to ~/.zshrc:
+
+```bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+```
+
+To install latest node version:
+
+```bash
+nvm install --lts
+```
+
+To use latest `Node` version:
+
+```bash
+nvm use --lts
+```
+
+To install a specific version of `Node`:
+
+```bash
+nvm intall <version>
+```
+
+To use a specific `Node` version:
+
+```bash
+nvm use <version>
+```
+
+Use `nvm alias default node` to make the latest version the default.
+
+Run `nvm --help` to show how to use other commands.
+
+## Alias
+
+Some aliases for some of the shell commands that I frequently use:
+
+```bash
+
+# Zsh
+alias zcon="code ~/.zshrc"
+alias zsrc="source ~/.zshrc"
+
+# Global config
+alias sshcon="code ~/.ssh/config"
+alias gitcon="vim ~/.gitconfig"
+
+# Git
+alias gits="git status"
+alias gitd="git diff"
+alias gitl="git lg"
+alias gita="git add ."
+alias gitc="git commit"
+
+# List all available iOS simulators
+alias listios="xcrun simctl list devices"
+```
