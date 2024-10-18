@@ -44,7 +44,7 @@ const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
+    resolve: (doc) => getSlug(doc._raw.flattenedPath),
   },
   path: {
     type: 'string',
@@ -88,6 +88,20 @@ function createSearchIndex(allBlogs) {
     )
     console.log('Local search index generated...')
   }
+}
+
+/**
+ * Customization function to clean the SLUG
+ */
+function getSlug(slug: string): string {
+  let path = slug.replace(/^.+?(\/)/, '')
+
+  // Remove filename prefix if exist
+  if (path.includes('__')) {
+    const pathArr = path.split('__')
+    path = pathArr[pathArr.length - 1]
+  }
+  return path
 }
 
 export const Blog = defineDocumentType(() => ({
