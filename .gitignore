@@ -48,3 +48,6 @@ yarn-error.log*
 
 # Idea IDE
 .idea/
+
+# Environment config
+.env

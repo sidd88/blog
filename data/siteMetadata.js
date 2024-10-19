@@ -1,25 +1,18 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'sidd88.me - Personal blog',
+  title: 'sidd88 - Personal blog',
   author: 'Do Dinh Si',
   headerTitle: 'sidd88',
   description: 'A place to save and share the knowledge i have learned everyday.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://sidd88.me',
+  siteUrl: 'https://sidd88.cloud',
   siteRepo: 'https://github.com/sidd88/blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'dodinhsi88@gmail.com',
   github: 'https://github.com/sidd88',
-  // x: 'https://twitter.com/x',
-  // twitter: 'https://twitter.com/Twitter',
-  // facebook: 'https://facebook.com',
-  // youtube: 'https://youtube.com',
   linkedin: 'https://www.linkedin.com/in/dodinhsi88',
-  // threads: 'https://www.threads.net',
-  // instagram: 'https://www.instagram.com',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,
