@@ -227,6 +227,39 @@ To check or verify the global git config, run:
 git config -l --global
 ```
 
+### Setup SSH keys for multiple account
+
+**Step 1**: Generate and add SSH key for all account as github official document link bellow:
+
+- [Generate new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- [Add a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+**Step 2**: Create `config` file in `~/.ssh` directory (if not exist) and add host for multiple account to config host entries:
+
+```
+#sidd-office account
+Host github.com-sidd-office
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github-sidd-office
+
+#sidd-personal account
+Host github.com-sidd-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github-sidd-personal
+```
+
+**Step 3**: Clone the repository use the bellow command:
+
+```
+git clone git@github.com-{your-username}:{owner-user-name}/{the-repo-name}.git
+
+[e.g.] git clone git@github.com-sidd-personal:sidd88/TestRepo.git
+```
+
+And finally, config `user.name`, `user.email` for local repository corresponding with github account.
+
 ## Versions management
 
 There are various package managers for different programming languages and technology stacks. Here are the environment managers I frequently use:
